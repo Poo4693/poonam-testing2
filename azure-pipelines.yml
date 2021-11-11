@@ -1,0 +1,33 @@
+steps:
+- task: TerraformTaskV1@0
+  displayName: Terra Init
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    backendServiceArm: 'testdemopoo'
+    backendAzureRmResourceGroupName: 'testingdemo'
+    backendAzureRmStorageAccountName: 'storagepoo'
+    backendAzureRmContainerName: 'backend'
+    backendAzureRmKey: 'tf/terraform.tfstate'
+- task: TerraformTaskV1@0
+  displayName: Terra Destroy
+  inputs:
+    provider: 'azurerm'
+    command: 'destroy'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    environmentServiceNameAzureRM: 'testdemopoo'
+- task: TerraformTaskV1@0
+  displayName: Terra Plan
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    environmentServiceNameAzureRM: 'testdemopoo'
+- task: TerraformTaskV1@0
+  displayName: Terra Apply
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    environmentServiceNameAzureRM: 'testdemopoo'
