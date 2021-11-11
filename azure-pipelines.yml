@@ -2,7 +2,7 @@
   inputs:
     provider: 'azurerm'
     command: 'init'
-    backendServiceArm: 'Visual Studio Enterprise Subscription(729e44c4-c672-4524-ae6f-facbd854d997)'
+    backendServiceArm: 'testdemopoo'
     backendAzureRmResourceGroupName: 'testingdemo'
     backendAzureRmStorageAccountName: 'storagepoo'
     backendAzureRmContainerName: 'backend'
@@ -10,9 +10,5 @@
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
-    command: 'validate'
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
     command: 'apply'
-    environmentServiceNameAzureRM: 'Visual Studio Enterprise Subscription(729e44c4-c672-4524-ae6f-facbd854d997)'
+    environmentServiceNameAzureRM: 'testdemopoo'
