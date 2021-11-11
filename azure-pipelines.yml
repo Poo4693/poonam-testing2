@@ -10,5 +10,10 @@
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'testdemopoo'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
     command: 'apply'
     environmentServiceNameAzureRM: 'testdemopoo'
