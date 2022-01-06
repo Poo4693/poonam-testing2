@@ -1,0 +1,84 @@
+#Powershell script to add or remove a Log Analytics workspace to the Microsoft Monitoring Agent
+#Syntax - MMA-modify-workspace [-action list/add/remove] [-workspaceID <String[]>] [-workspaceKey <String[]>]
+#Mike Elliott - Nov 2020
+#ver 2020_11_18_003
+
+#initialise the script
+param(
+    [string] $action = "add",
+    [string] $workspaceID =  "ffc5bb56-b103-4e98-ab1b-da5d2ed1dca0",
+    [string] $workspaceKey = "PqtiK2808yAbAwpRpvhU672i1MFF8EGuhQs6ZFM0ErTCCxLRGD7psZj+9UHWKLv217m62uhcf9mvu9RC62qOhw=="
+)
+
+#check if the MMA agent service exists, exit the script if not
+try {
+$service=Get-Service 'HealthService' -ErrorAction Stop
+}
+catch
+{
+     Write-Output  "Error - $PSItem"
+     Return 1
+}
+
+$mma = New-Object -ComObject 'AgentConfigManager.MgmtSvcCfg'
+$usage = 'Syntax - MMA-modify-workspace [-action list/add/remove] [-workspaceID <String[]>] [-workspaceKey <String[]>]'
+
+Switch ($action) #choose code based on the script action selected - default is list
+{
+ list {
+    try {
+        $currentWorkspaces = $mma.GetCloudWorkspaces() 
+        if ($currentWorkspaces.length -ne 0 ){
+            $currentWorkspaces
+        }
+        else {
+            Write-Output 'No workspaces currently configured.'
+        }
+        return 0
+    }
+    catch{ #write the error to the console
+        Write-Output $PSItem.ToString()
+        return 1
+    }
+ Break
+ }
+ add { 
+    try {
+        #test for arguments workspaceID and workspaceKey
+        if (($workspaceID -ne "") -and ($workspaceKey -ne "")){
+            $mma.AddCloudWorkspace($workspaceId, $workspaceKey)
+            $mma.ReloadConfiguration()
+            Write-Output "New workspace $workspaceID added."
+        }
+        else {
+            Write-Output $usage
+        }
+        return 0
+    }
+    catch{ #write the error to the console
+        Write-Output $PSItem.ToString()
+        return 1
+    }
+ Break
+ }
+ remove {
+    try {
+        #test for arguments workspaceID
+        if ($workspaceID -ne ""){
+            $mma.RemoveCloudWorkspace($workspaceId)
+            $mma.ReloadConfiguration()
+            Write-Output "Workspace $workspaceID removed."
+        }
+        else {
+            Write-Output $usage
+        }
+        return 0
+    }
+    catch { #write the error to the console
+        Write-Output $PSItem.ToString()
+        return 1
+    }
+ Break
+ }
+ Default { $usage }
+}
