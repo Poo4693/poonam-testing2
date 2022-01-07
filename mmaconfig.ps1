@@ -6,8 +6,8 @@
 #initialise the script
 param(
     [string] $action = "add",
-    [string] $workspaceID =  "ffc5bb56-b103-4e98-ab1b-da5d2ed1dca0",
-    [string] $workspaceKey = "PqtiK2808yAbAwpRpvhU672i1MFF8EGuhQs6ZFM0ErTCCxLRGD7psZj+9UHWKLv217m62uhcf9mvu9RC62qOhw=="
+    [string] $workspaceID = "82706f75-349c-46c1-b6ca-e69c72d1444b",
+    [string] $workspaceKey = "uUrc3NsylJ8MYop1D0vyxKUtGgQYTfaKJiiPnI6KrsKbEJdSsn2tF62Jyn3d8oEfoGzBIeQVKWrC+ZKS1x5dZQ=="
 )
 
 #check if the MMA agent service exists, exit the script if not
